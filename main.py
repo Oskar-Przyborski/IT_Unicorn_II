@@ -37,8 +37,12 @@ def score_frequencies(dict_base: dict[str, float], dict_input: dict[str, float])
     for char in dict_base:
         # Podstawowy wynik to różnica między ogólną częstością a podaną częstością
         score = abs(dict_base[char] - dict_input[char])
-        # Zwiększ wpłwyw przy rzadziej występujących literach.
-        score = score / dict_base[char]
+
+        # Zwiększ wpływ przy rzadziej występujących literach.
+        score /= dict_base[char]
+
+        # Dostosuj wynik do różnic w częstościach między językami
+        score *= abs(LETTERS_FREQUENCY_PL.get(char, 0) - LETTERS_FREQUENCY_EN.get(char, 0)) * dict_base[char] 
 
         difference_score += score
 
