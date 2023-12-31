@@ -7,8 +7,8 @@ def evaluate_language(input: str) -> str:
     input_frequency_pl = analyze_chars_frequency(
         LETTERS_FREQUENCY_PL.keys(), input)
 
-    score_en = score_frequencies(LETTERS_FREQUENCY_EN, input_frequency_en)
-    score_pl = score_frequencies(LETTERS_FREQUENCY_PL, input_frequency_pl)
+    score_en = calculate_differences(LETTERS_FREQUENCY_EN, input_frequency_en)
+    score_pl = calculate_differences(LETTERS_FREQUENCY_PL, input_frequency_pl)
 
     if (score_pl > score_en):
         return "English"
@@ -27,7 +27,7 @@ def test(data: dict[str, str]) -> float:
         else:
             wrongs += 1
 
-        # print(f"Wynik: {is_right}, Zdanie: {sentence}")
+        print(f"Wynik: {is_right}, Zdanie: {sentence}")
 
     print(f"Dobrze: {rights}, Źle: {wrongs}, Poprawność: {
           (rights / (rights + wrongs)) * 100}%")

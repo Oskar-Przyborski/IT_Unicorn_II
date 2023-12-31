@@ -22,31 +22,21 @@ def analyze_chars_frequency(characters: list[str], input: str) -> dict[str, floa
     # Zsumuj wszyskie policzone znaki
     allCharsOccurences = sum([x for x in result.values()])
 
-    # Policz częstotliwości
+    # Zamień sumy na częstości występowania
     for char in result:
         result[char] = result[char] / allCharsOccurences
 
     return result
 
 # Porówuje częstotliwości występowania znaków w obu słownikach.
-# Im większe różnice między znakami, tym większy wynik, tym bardziej różne są od siebie słowniki
-def score_frequencies(dict_base: dict[str, float], dict_input: dict[str, float]) -> float:
-    difference_score = 0
-
-    # Oblicz i zsumuj wyniki dla każdej litery
+# Oblicza odległość euklidesową między częstościami znaków
+def calculate_differences(dict_base: dict[str, float], dict_input: dict[str, float]) -> float:
+    score = 0
     for char in dict_base:
-        # Podstawowy wynik to różnica między ogólną częstością a podaną częstością
-        score = abs(dict_base[char] - dict_input[char])
+        diff = (dict_base[char] - dict_input[char]) ** 2
+        score += diff
 
-        # Zwiększ wpływ przy rzadziej występujących literach.
-        score /= dict_base[char]
-
-        # Dostosuj wynik do różnic w częstościach między językami
-        score *= abs(LETTERS_FREQUENCY_PL.get(char, 0) - LETTERS_FREQUENCY_EN.get(char, 0)) * dict_base[char] 
-
-        difference_score += score
-
-    return difference_score
+    return score ** (1/2) # Pierwiastek kwadratowy
 
 # Pomaga schludnie wydrukować częstotliwości znaków
 def print_frequencies(base: dict[str, float]):
@@ -65,13 +55,16 @@ def main():
         print("Tekst jest dłuższy niż 100 znaków!")
         exit()
 
+    # Wygeneruj częstości występowania znaków dla podanego tekstu w obu językach
     input_frequency_en = analyze_chars_frequency(LETTERS_FREQUENCY_EN.keys(), input_text)
     input_frequency_pl = analyze_chars_frequency(LETTERS_FREQUENCY_PL.keys(), input_text)
 
-    score_en = score_frequencies(LETTERS_FREQUENCY_EN, input_frequency_en)
-    score_pl = score_frequencies(LETTERS_FREQUENCY_PL, input_frequency_pl)
+    # Oceń różnice w wygenerowanych słownikach.
+    difference_en = calculate_differences(LETTERS_FREQUENCY_EN, input_frequency_en)
+    difference_pl = calculate_differences(LETTERS_FREQUENCY_PL, input_frequency_pl)
 
-    if (score_pl > score_en):
+    # Im większa różnica, tym mniej podobny język
+    if (difference_pl > difference_en):
         print("Wykryto: Język angielski")
         print("Oto częstość występowania liter w podanym tekscie")
         print_frequencies(input_frequency_en)
@@ -79,7 +72,7 @@ def main():
         print("Wykryto: Język polski")
         print("Oto częstość występowania liter w podanym tekscie")
         print_frequencies(input_frequency_pl)
-    # Jest jeszcze opcja, że wyniki będą identyczne, jednakże specyfikacja nie pozwala na "remis".
+    # Jest jeszcze opcja, że róznice będą identyczne, jednakże specyfikacja nie pozwala na "remis".
     # Szansa na taką sytuacje jest bardzo niewielka, więc w przypadku remisu, wynikiem jest język polski
 
 if(__name__=="__main__"):
