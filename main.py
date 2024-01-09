@@ -1,4 +1,4 @@
-# Oskar Przyborski
+# Oskar Przyborski, Dawid Kruczek
 
 # Definiowanie stałych
 LETTERS_FREQUENCY_EN = {"A": 0.082, "B": 0.015, "C": 0.028, "D": 0.043, "E": 0.127, "F": 0.022, "G": 0.020, "H": 0.061, "I": 0.070, "J": 0.002, "K": 0.008, "L": 0.040,
@@ -13,7 +13,7 @@ LETTERS_FREQUENCY_PL = {"A": 0.0891, "Ą": 0.0099, "B": 0.0147, "C": 0.0396, "Ć
 # Funkcja generująca słownik z częstością występowania znaków w tekście
 def analyze_chars_frequency(characters: list[str], input: str) -> dict[str, float]:
     input = input.upper()  # Zamień wszystkie litery na wielkie
-    result = {}
+    result = {} # Zdefiniowanie zmienej przechowujacej wynik
 
     # Policz ile razy występuje każdy znak
     for char in characters:
@@ -50,7 +50,9 @@ def print_frequencies(base: dict[str, float]):
             current_chunk_size = 0
 
 def main():
+    # Wczytywanie tekstu od użytkownika
     input_text = input("Podaj tekst: ")
+    # Walidacja wczytanego tekstu
     if (len(input_text) > 100):
         print("Tekst jest dłuższy niż 100 znaków!")
         exit()
@@ -75,5 +77,6 @@ def main():
     # Jest jeszcze opcja, że róznice będą identyczne, jednakże specyfikacja nie pozwala na "remis".
     # Szansa na taką sytuacje jest bardzo niewielka, więc w przypadku remisu, wynikiem jest język polski
 
-if(__name__=="__main__"):
+# Zapobiega uruchamianiu programu, przy uruchamianiu go z innego pliku (importowaniu)
+if(__name__ == "__main__"):
     main()
