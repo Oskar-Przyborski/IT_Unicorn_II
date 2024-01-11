@@ -5,7 +5,7 @@
 
 # Założenia algorytmiczne
 
-Najpierw zdefiniowane są stałe reprezentujące te częstości dla języków angielskiego i polskiego. Następnie użytkownik wprowadza tekst do analizy. Program oblicza, jak często występuje każda litera w tekście.
+Najpierw zdefiniowane są stałe reprezentujące częstości dla języków angielskiego i polskiego. Następnie użytkownik wprowadza tekst do analizy. Program oblicza, jak często występuje każda litera w tekście.
 
 Po uzyskaniu tych danych porównuje uzyskane częstości z wcześniej zdefiniowanymi wartościami dla obu języków. Dla każdego języka oblicza odległość między rzeczywistą częstością a oczekiwaną. Im mniejsza różnica, tym bardziej prawdopodobne, że tekst jest napisany w danym języku.
 
